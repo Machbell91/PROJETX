@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
 
@@ -10,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Dragon Ball & One Piece', key: UniqueKey()),
+      home: MyHomePage(title: 'Dragon Ball & One Piece'),
       routes: {
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({required Key key, required this.title}) : super(key: key);
+  MyHomePage({required this.title});
 
   final String title;
 
@@ -41,10 +43,12 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 TextField(
                   decoration: InputDecoration(hintText: 'Email'),
+                  controller: _emailController,
                 ),
                 TextField(
                   decoration: InputDecoration(hintText: 'Mot de passe'),
                   obscureText: true,
+                  controller: _passwordController,
                 ),
               ],
             ),
@@ -59,8 +63,40 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               child: Text('Connexion'),
               onPressed: () {
-                // TODO: implémenter la logique de connexion
-                Navigator.of(context).pop();
+                // Get the email and password from the text fields
+                String email = _emailController.text;
+                String password = _passwordController.text;
+
+                // Send a POST request to the login.php file with the email and password
+                http.post(Uri.parse('http://example.com/login.php'), body: {
+                  'email': email,
+                  'password': password,
+                }).then((response) {
+                  // Check the response from the server
+                  if (response.body == 'Login successful') {
+                    // Navigate to the home page
+                    Navigator.pushReplacementNamed(context, '/');
+                  } else {
+                    // Show an error message
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Error'),
+                          content: Text('Failed to login'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('OK'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                });
               },
             ),
           ],
@@ -68,6 +104,9 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
   }
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -122,84 +161,221 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-class LoginPage extends StatelessWidget {
-@override
-Widget build(BuildContext context) {
-return Scaffold(
-appBar: AppBar(
-title: Text('Connexion'),
-),
-body: Padding(
-padding: const EdgeInsets.all(16.0),
-child: Column(
-mainAxisAlignment: MainAxisAlignment.center,
-children: <Widget>[
-TextFormField(
-decoration: InputDecoration(
-labelText: 'Adresse e-mail',
-),
-),
-SizedBox(height: 16.0),
-TextFormField(
-decoration: InputDecoration(
-labelText: 'Mot de passe',
-),
-obscureText: true,
-),
-SizedBox(height: 16.0),
-ElevatedButton(
-onPressed: () {
-// TODO: Implémenter la logique de connexion
-},
-child: Text('Connexion'),
-),
-],
-),
-),
-);
-}
+
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class RegisterPage extends StatelessWidget {
-@override
-Widget build(BuildContext context) {
-return Scaffold(
-appBar: AppBar(
-title: Text('S\'enregistrer'),
-),
-body: Padding(
-padding: const EdgeInsets.all(16.0),
-child: Column(
-mainAxisAlignment: MainAxisAlignment.center,
-children: <Widget>[
-TextFormField(
-decoration: InputDecoration(
-labelText: 'Nom d\'utilisateur',
-),
-),
-SizedBox(height: 16.0),
-TextFormField(
-decoration: InputDecoration(
-labelText: 'Adresse e-mail',
-),
-),
-SizedBox(height: 16.0),
-TextFormField(
-decoration: InputDecoration(
-labelText: 'Mot de passe',
-),
-obscureText: true,
-),
-SizedBox(height: 16.0),
-ElevatedButton(
-onPressed: () {
-// TODO: Implémenter la logique d'inscription
-},
-child: Text('S\'enregistrer'),
-),
-],
-),
-),
-);
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _login() async {
+    // Get the email and password from the text fields
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    // Send a POST request to the login.php file with the email and password
+    http.post(Uri.parse('http://example.com/login.php'), body: {
+      'email': email,
+      'password': password,
+    }).then((response) {
+      // Check the response from the server
+      if (response.body == 'Login successful') {
+        // Navigate to the home page
+        Navigator.pushReplacementNamed(context, '/');
+      } else {
+        // Show an error message
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('Failed to login'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }).catchError((error) {
+      // Show an error message
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('Failed to connect to server'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Connexion'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Adresse e-mail',
+              ),
+              controller: _emailController,
+            ),
+            SizedBox(height: 16.0),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Mot de passe',
+              ),
+              obscureText: true,
+              controller: _passwordController,
+            ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                _login();
+              },
+              child: Text('Connexion'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
+
+class RegisterPage extends StatefulWidget {
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _register() async {
+    // Get the username, email and password from the text fields
+    String username = _usernameController.text;
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    // Send a POST request to the register.php file with the username, email and password
+    http.post(Uri.parse('http://example.com/register.php'), body: {
+      'username': username,
+      'email': email,
+      'password': password,
+    }).then((response) {
+      // Check the response from the server
+      if (response.body == 'Registration successful') {
+        // Navigate to the login page
+        Navigator.pushReplacementNamed(context, '/login');
+      } else {
+        // Show an error message
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('Failed to register'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }).catchError((error) {
+      // Show an error message
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('Failed to connect to server'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('S\'enregistrer'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Nom d\'utilisateur',
+              ),
+              controller: _usernameController,
+            ),
+            SizedBox(height: 16.0),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Adresse e-mail',
+              ),
+              controller: _emailController,
+            ),
+            SizedBox(height: 16.0),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Mot de passe',
+              ),
+              obscureText: true,
+              controller: _passwordController,
+            ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                _register();
+              },
+              child: Text('S\'enregistrer'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

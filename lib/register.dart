@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:crypt/crypt.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:http/http.dart' as http;
+import 'package:dbop/login.dart';
+import 'package:dbop/thome.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -9,26 +12,51 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  late Database _database;
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    _initDatabase();
-  }
+  Future<void> _registerUser() async {
+    if (_formKey.currentState!.validate()) {
+      // Hash the password
+      String hashedPassword = Crypt.sha256(
+              _passwordController.text,
+              salt: 'my_secret_salt')
+          .toString();
 
-  Future<void> _initDatabase() async {
-    _database = await openDatabase(
-      'my_database.db',
-      version: 1,
-      onCreate: (db, version) {
-        db.execute(
-            'CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT UNIQUE, password TEXT)');
-      },
-    );
+      // Send a POST request to the API to register the user
+      final response = await http.post(
+        Uri.parse('http://localhost/api/register'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'username': _usernameController.text,
+          'email': _emailController.text,
+          'password': hashedPassword,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // User registered successfully
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('User registered successfully')),
+        );
+        _emailController.clear();
+        _passwordController.clear();
+        _usernameController.clear();
+
+        // Navigate to the home page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => THome()),
+        );
+      } else {
+        // Failed to register user
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to register user')),
+        );
+      }
+    }
   }
 
   @override
@@ -83,6 +111,22 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(height: 16.0),
                 TextFormField(
+                  controller: _usernameController,
+                  decoration: InputDecoration(
+                    labelText: 'Nom d\'utilisateur',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer un nom d\'utilisateur';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 16.0),
+                TextFormField(
                   controller: _passwordController,
                   decoration: InputDecoration(
                     labelText: 'Mot de passe',
@@ -103,31 +147,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(height: 32.0),
                 ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState != null &&
-                        _formKey.currentState!.validate()) {
-                      // Hash the password
-                      String hashedPassword = Crypt.sha256(
-                              _passwordController.text,
-                              salt: 'my_secret_salt')
-                          .toString();
-                      // Here, you can add your own logic to register the user
-                      // using the email and hashed password
-                      // Make sure to use parameterized queries to prevent SQL
-                      // injection attacks
-                      await _database.insert(
-                        'users',
-                        {'email': _emailController.text, 'password': hashedPassword},
-                        conflictAlgorithm: ConflictAlgorithm.fail,
-                      );
-                      // Clear the form
-                      _emailController.clear();
-                      _passwordController.clear();
-                      if (_formKey.currentState != null) {
-                        _formKey.currentState?.reset();
-                      }
-                    }
-                  },
+                  onPressed: _registerUser,
                   child: Text('S\'enregistrer'),
                 ),
               ],
