@@ -1,6 +1,8 @@
+// ignore: unused_import
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:io';
 
 void main() => runApp(MyApp());
 
@@ -68,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 String password = _passwordController.text;
 
                 // Send a POST request to the login.php file with the email and password
-                http.post(Uri.parse('http://example.com/login.php'), body: {
+                http.post(Uri.parse('https://localhost:3800/login.php'), body: {
                   'email': email,
                   'password': password,
                 }).then((response) {
@@ -177,10 +179,11 @@ class _LoginPageState extends State<LoginPage> {
     String password = _passwordController.text;
 
     // Send a POST request to the login.php file with the email and password
-    http.post(Uri.parse('http://example.com/login.php'), body: {
+    http.post(Uri.parse('https://localhost:3800/login.php'), body: {
       'email': email,
       'password': password,
     }).then((response) {
+      stdout.write(response);
       // Check the response from the server
       if (response.body == 'Login successful') {
         // Navigate to the home page
@@ -283,11 +286,12 @@ class _RegisterPageState extends State<RegisterPage> {
     String password = _passwordController.text;
 
     // Send a POST request to the register.php file with the username, email and password
-    http.post(Uri.parse('http://example.com/register.php'), body: {
+    http.post(Uri.parse('https://localhost:3800/register'), body: {
       'username': username,
       'email': email,
       'password': password,
     }).then((response) {
+      stdout.write(response);
       // Check the response from the server
       if (response.body == 'Registration successful') {
         // Navigate to the login page

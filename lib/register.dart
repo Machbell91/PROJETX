@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:crypt/crypt.dart';
 import 'package:http/http.dart' as http;
-import 'package:dbop/login.dart';
 import 'package:dbop/thome.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -16,47 +14,54 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   Future<void> _registerUser() async {
+    setState(() {
+      _isLoading = true;
+    });
     if (_formKey.currentState!.validate()) {
-      // Hash the password
-      String hashedPassword = Crypt.sha256(
-              _passwordController.text,
-              salt: 'my_secret_salt')
-          .toString();
-
-      // Send a POST request to the API to register the user
-      final response = await http.post(
-        Uri.parse('http://localhost/api/register'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'username': _usernameController.text,
-          'email': _emailController.text,
-          'password': hashedPassword,
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        // User registered successfully
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('User registered successfully')),
+      try {
+        // Send a POST request to the API to register the user
+        final response = await http.post(
+          Uri.parse('https://192.168.1.12:3800/register'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({
+            'name': _usernameController.text,
+            'email': _emailController.text,
+            'password': _passwordController.text,
+          }),
         );
-        _emailController.clear();
-        _passwordController.clear();
-        _usernameController.clear();
 
-        // Navigate to the home page
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => THome()),
-        );
-      } else {
-        // Failed to register user
+        if (response.statusCode == 200) {
+          // User registered successfully
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('User registered successfully')),
+          );
+          _emailController.clear();
+          _passwordController.clear();
+          _usernameController.clear();
+
+          // Navigate to the home page
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => THome()),
+          );
+        } else {
+          // Failed to register user
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to register user')),
+          );
+        }
+      } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to register user')),
         );
       }
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -147,8 +152,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(height: 32.0),
                 ElevatedButton(
-                  onPressed: _registerUser,
-                  child: Text('S\'enregistrer'),
+                  onPressed: _isLoading ? null : _registerUser,
+                  child: _isLoading
+                      ? CircularProgressIndicator()
+                      : Text('S\'enregistrer'),
                 ),
               ],
             ),

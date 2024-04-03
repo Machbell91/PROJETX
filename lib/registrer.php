@@ -1,4 +1,9 @@
 <?php
+// Activer l'affichage des erreurs PHP
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Définir les en-têtes HTTP
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
@@ -44,4 +49,3 @@ if (isset($data->nom) && isset($data->email) && isset($data->mot_de_passe)) {
 
 // Close the database connection
 $conn->close();
-?>

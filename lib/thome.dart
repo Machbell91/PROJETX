@@ -31,8 +31,6 @@ class _THomeState extends State<THome> {
   }
 
   Future<void> _checkLoginStatus() async {
-    // Vérifiez si l'utilisateur est connecté en utilisant votre logique de connexion
-    // Par exemple, vous pouvez vérifier si un jeton d'authentification est stocké dans le stockage local
     bool isLoggedIn = await _yourLoginCheckFunction();
     setState(() {
       _isLoggedIn = isLoggedIn;
@@ -40,14 +38,10 @@ class _THomeState extends State<THome> {
   }
 
   Future<bool> _yourLoginCheckFunction() async {
-    // Implémenter votre logique de vérification de connexion ici
-    // Retourner true si l'utilisateur est connecté, false sinon
     return false;
   }
 
   Future<void> _logout() async {
-    // Implémenter votre logique de déconnexion ici
-    // Par exemple, vous pouvez supprimer le jeton d'authentification du stockage local
     setState(() {
       _isLoggedIn = false;
     });
@@ -126,10 +120,8 @@ class _THomeState extends State<THome> {
                   child: GridView.count(
                     crossAxisCount: 2,
                     children: [
-                      // La Fondation
                       GestureDetector(
                         onTap: () {
-                          // Ajoutez votre logique ici pour la rubrique La Fondation
                         },
                         child: Card(
                           child: Column(
@@ -152,10 +144,8 @@ class _THomeState extends State<THome> {
                           ),
                         ),
                       ),
-                      // Enfance & International
                       GestureDetector(
                         onTap: () {
-                          // Ajoutez votre logique ici pour la rubrique Enfance & International
                         },
                         child: Card(
                           child: Column(
@@ -178,10 +168,8 @@ class _THomeState extends State<THome> {
                           ),
                         ),
                       ),
-                      // Handicap visuel
                       GestureDetector(
                         onTap: () {
-                          // Ajoutez votre logique ici pour la rubrique Handicap visuel
                         },
                         child: Card(
                           child: Column(
@@ -230,10 +218,8 @@ class _THomeState extends State<THome> {
                           ),
                         ),
                       ),
-                      // Couples
                       GestureDetector(
                         onTap: () {
-                          // Ajoutez votre logique ici pour la rubrique Couples
                         },
                         child: Card(
                           child: Column(
@@ -256,10 +242,8 @@ class _THomeState extends State<THome> {
                           ),
                         ),
                       ),
-                      // Familles
                       GestureDetector(
                         onTap: () {
-                          // Ajoutez votre logique ici pour la rubrique Familles
                         },
                         child: Card(
                           child: Column(

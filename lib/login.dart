@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'thome.dart';
 
+
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -22,11 +23,12 @@ class LoginPage extends StatelessWidget {
                 Future<void> _login() async {
                   try {
                     final response = await http.post(
-                      Uri.parse('http://localhost/login.php'),
-                      body: {
+                      Uri.parse('http://192.168.1.12:8889/login'),
+                      headers: {'Content-Type': 'application/json'},
+                      body: jsonEncode({
                         'email': _emailController.text,
                         'password': _passwordController.text,
-                      },
+                      }),
                     );
 
                     if (response.statusCode == 200) {
