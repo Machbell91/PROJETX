@@ -1,43 +1,76 @@
 import 'package:flutter/material.dart';
 
 class HeaderWidget extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final Color backgroundColor;
+
+  HeaderWidget({
+    required this.title,
+    required this.subtitle,
+    this.backgroundColor = const Color(0xFFF5606F),
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      height: 200,
       decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, 2),
-          ),
-        ],
+        color: backgroundColor,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
-            'assets/images/logo.png',
-            height: 40,
+          SizedBox(height: 32),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Icon(Icons.menu, color: Colors.white),
+                SizedBox(width: 16),
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
           ),
-          Row(
-            children: [
-              TextButton(
-                onPressed: () {},
-                child: Text('Accueil'),
+          SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              subtitle,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
               ),
-              TextButton(
-                onPressed: () {},
-                child: Text('À propos'),
+            ),
+          ),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               ),
-              TextButton(
-                onPressed: () {},
-                child: Text('Contact'),
+              child: Text(
+                'Appel à l\'action',
+                style: TextStyle(
+                  color: backgroundColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ],
+            ),
           ),
         ],
       ),
