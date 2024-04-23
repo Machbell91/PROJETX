@@ -5,12 +5,6 @@ class LesAnimes extends StatefulWidget {
   _LesAnimesState createState() => _LesAnimesState();
 }
 class _LesAnimesState extends State<LesAnimes> {
-  // Uncomment this section to use tabs with icons
-  // final List<Tab> _tabs = [
-  //   const Tab(icon: Icon(Icons.list), text: "Mangakas"),
-  //   const Tab(icon: Icon(Icons.shopping_bag_rounded), text: "Cart"),
-  //   const Tab(icon: Icon(Icons.person), text: "Profile"),
-  // ];
   final List<Tab> _tabs = [
     const Tab(text: 'LES ANIMES'),
     const Tab(text: 'Menu'),
@@ -18,7 +12,7 @@ class _LesAnimesState extends State<LesAnimes> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length:_tabs.length,
       child: Scaffold(
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -238,7 +232,6 @@ class _LesAnimesState extends State<LesAnimes> {
                   ],
                 ),
               ),
-              Center(child: Text(_tabs[2].text ?? "Tab 3")),
             ],
           ),
         ),

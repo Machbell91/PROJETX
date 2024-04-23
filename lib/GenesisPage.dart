@@ -7,12 +7,6 @@ class GenesisPage extends StatefulWidget {
   _GenesisPageState createState() => _GenesisPageState();
 }
 class _GenesisPageState extends State<GenesisPage> {
-  // Uncomment this section to use tabs with icons
-  // final List<Tab> _tabs = [
-  //   const Tab(icon: Icon(Icons.list), text: "Mangakas"),
-  //   const Tab(icon: Icon(Icons.shopping_bag_rounded), text: "Cart"),
-  //   const Tab(icon: Icon(Icons.person), text: "Profile"),
-  // ];
   final List<Tab> _tabs = [
     const Tab(text: 'GENÈSE'),
     const Tab(text: 'Menu'),
@@ -20,7 +14,7 @@ class _GenesisPageState extends State<GenesisPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length:_tabs.length,
       child: Scaffold(
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -222,7 +216,6 @@ class _GenesisPageState extends State<GenesisPage> {
                     ],
                   ),
                 ),
-              Center(child: Text(_tabs[2].text ?? "Tab 3")),
             ],
           ),
         ),

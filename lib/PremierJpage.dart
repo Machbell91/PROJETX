@@ -15,7 +15,7 @@ class _PremierJpageState extends State<PremierJpage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length:_tabs.length,
       child: Scaffold(
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -223,7 +223,6 @@ class _PremierJpageState extends State<PremierJpage> {
                   ],
                 ),
               ),
-              Center(child: Text(_tabs[2].text ?? "Tab 3")),
             ],
           ),
         ),
