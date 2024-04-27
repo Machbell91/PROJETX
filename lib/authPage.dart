@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,8 +26,6 @@ class _AuthPageState extends State<AuthPage> {
   int _failedLoginAttempts = 0;
 
   final AuthService _authService = AuthService();
-
-  // Expressions régulières pour la validation de l'email et du mot de passe
   final RegExp _emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
   final RegExp _passwordRegex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
 
@@ -43,7 +43,6 @@ class _AuthPageState extends State<AuthPage> {
       if (e.code == 'wrong-password' || e.code == 'user-not-found') {
         _failedLoginAttempts++;
         if (_failedLoginAttempts >= 5) {
-          // Mettez en place votre logique de blocage ici
         }
       }
     } catch (e) {

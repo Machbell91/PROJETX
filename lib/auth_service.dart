@@ -13,7 +13,6 @@ class AuthService {
     UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
     await _firestore.collection('users').doc(userCredential.user!.uid).set({
       'email': email,
-      // Ajoutez d'autres données utilisateur ici
     });
     return userCredential;
   }
