@@ -1,18 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class MoralePage extends StatefulWidget {
   @override
   _MoralePageState createState() => _MoralePageState();
 }
+
 class _MoralePageState extends State<MoralePage> {
   final List<Tab> _tabs = [
     const Tab(text: 'MORALES'),
     const Tab(text: 'Menu'),
   ];
+
+  String dragonBall = "Dragon Ball : Une Saga Légendaire\n\n\n"
+      "Dragon Ball est un manga emblématique créé par Akira Toriyama. Depuis sa publication en 1984, il a conquis le cœur de millions de lecteurs à travers le monde. L'histoire suit les aventures de Son Goku, un jeune guerrier en quête de puissance et de sagesse. Ses péripéties, ses combats épiques et ses rencontres inoubliables ont créé une saga légendaire.\n"
+      "Le manga explore des thèmes comme la persévérance, l'amitié et la quête de l'excellence. Goku incarne ces valeurs en s'entraînant sans relâche pour devenir le plus fort. Les relations avec ses amis, notamment Krillin et Bulma, soulignent l'importance du travail d'équipe et de l'entraide.\n"
+      "Dragon Ball est aussi connu pour ses combats intenses et sa quête des boules de cristal, objets magiques capables d'exaucer des vœux. Les aventures de Goku l'emmènent dans des contrées exotiques, rencontrant des ennemis redoutables et des alliés improbables.\n"
+      "L'impact culturel de Dragon Ball est indéniable, inspirant de nombreux autres mangas et animés. Son influence s'étend bien au-delà du Japon, touchant les cœurs des fans du monde entier. Dragon Ball est plus qu'un manga : c'est une référence incontournable de la culture populaire mondiale.\n"
+      "Akira Toriyama a réussi à créer un univers fascinant, rempli de personnages mémorables et de moments inoubliables. Son génie créatif a marqué l'histoire du manga et continue d'inspirer de nouvelles générations.\n\n\n";
+
+  String onePiece = "One Piece : Une Épopée Épique\n\n\n"
+      "One Piece est un manga épique écrit et illustré par Eiichiro Oda. Publié pour la première fois en 1997, il raconte l'histoire de Monkey D. Luffy, un pirate rêveur à la quête du légendaire trésor One Piece. Cette aventure l'emmène à travers les mers du monde, rencontrant des personnages uniques et vivant des aventures extraordinaires.\n"
+      "Luffy est entouré d'un équipage diversifié, chacun ayant ses propres compétences et motivations. Ensemble, ils affrontent des défis formidables et découvrent les secrets cachés de l'océan. L'amitié et la loyauté sont au cœur de leur voyage, renforçant les liens entre les membres de l'équipage.\n"
+      "One Piece explore également des thèmes tels que la liberté, la justice et la recherche de soi. Les aventures de Luffy l'amènent à s'opposer à des ennemis puissants et à défier les lois injustes. Sa détermination à poursuivre ses rêves inspire les lecteurs à ne jamais abandonner leurs propres aspirations.\n"
+      "Le manga est reconnu pour son monde vaste et détaillé, rempli de mystères et de lieux exotiques. La créativité d'Oda se manifeste à travers les nombreuses îles, cultures et créatures qu'il a imaginées. Cela crée une expérience immersive pour les lecteurs.\n"
+      "One Piece a laissé une empreinte indélébile sur la culture pop mondiale. Son influence s'étend au-delà des pages, avec des adaptations animées, des jeux vidéo et des films. C'est une œuvre qui continue de captiver les fans et de les emmener dans un voyage inoubliable.\n\n\n";
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length:_tabs.length,
+      length: _tabs.length,
       child: Scaffold(
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -65,152 +82,141 @@ class _MoralePageState extends State<MoralePage> {
                           child: Column(
                             children: <Widget>[
                               ExpansionTile(
-                                title: Text('Akira Toriyama'),
-                                onExpansionChanged: (isExpanded) => print(isExpanded),
-                                children: [
-                                          ListTile(
-                                      leading: Image.asset('assets/akira.jpg'),
-                                      title: Text('Akira TORIYAMA est un mangaka japonais.'),
-                                      subtitle: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('Dragon Ball, Dr. Slump'),
-                                          SizedBox(height: 10.0), // Add spacing
-                                          Text(
-                                            "Dragon Ball : Une Saga Légendaire\n\n\n"
-                                              "Dragon Ball est un manga emblématique créé par Akira Toriyama. Depuis sa publication en 1984, il a conquis le cœur de millions de lecteurs à travers le monde. L'histoire suit les aventures de Son Goku, un jeune guerrier en quête de puissance et de sagesse. Ses péripéties, ses combats épiques et ses rencontres inoubliables ont créé une saga légendaire.\n"
-                                              "Le manga explore des thèmes comme la persévérance, l'amitié et la quête de l'excellence. Goku incarne ces valeurs en s'entraînant sans relâche pour devenir le plus fort. Les relations avec ses amis, notamment Krillin et Bulma, soulignent l'importance du travail d'équipe et de l'entraide.\n"
-                                              "Dragon Ball est aussi connu pour ses combats intenses et sa quête des boules de cristal, objets magiques capables d'exaucer des vœux. Les aventures de Goku l'emmènent dans des contrées exotiques, rencontrant des ennemis redoutables et des alliés improbables.\n"
-                                              "L'impact culturel de Dragon Ball est indéniable, inspirant de nombreux autres mangas et animés. Son influence s'étend bien au-delà du Japon, touchant les cœurs des fans du monde entier. Dragon Ball est plus qu'un manga : c'est une référence incontournable de la culture populaire mondiale.\n"
-                                              "Akira Toriyama a réussi à créer un univers fascinant, rempli de personnages mémorables et de moments inoubliables. Son génie créatif a marqué l'histoire du manga et continue d'inspirer de nouvelles générations.\n\n\n",
-                                            
-                                            style: TextStyle(
-                                              fontSize: 16.0,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                ],
-                              ),
-                              ExpansionTile(
-                                title: Text('Eiichiro ODA'),
+                                title: Text('DRAGONBALL'),
                                 onExpansionChanged: (isExpanded) => print(isExpanded),
                                 children: [
                                   ListTile(
-                                    leading: Image.asset('assets/oda.jpeg'),
-                                    title: Text('Eiichiro ODA est un mangaka japonais.'),
+                                    leading: Image.asset('assets/akira.jpg'),
+                                    title: Text('Akira TORIYAMA'),
                                     subtitle: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text('One Piece'),
                                         SizedBox(height: 10.0), // Add spacing
-                                        Text(
-                                            "One Piece : Une Épopée Épique\n\n\n"
-                                            "One Piece est un manga épique écrit et illustré par Eiichiro Oda. Publié pour la première fois en 1997, il raconte l'histoire de Monkey D. Luffy, un pirate rêveur à la quête du légendaire trésor One Piece. Cette aventure l'emmène à travers les mers du monde, rencontrant des personnages uniques et vivant des aventures extraordinaires.\n"
-                                            "Luffy est entouré d'un équipage diversifié, chacun ayant ses propres compétences et motivations. Ensemble, ils affrontent des défis formidables et découvrent les secrets cachés de l'océan. L'amitié et la loyauté sont au cœur de leur voyage, renforçant les liens entre les membres de l'équipage.\n"
-                                            "One Piece explore également des thèmes tels que la liberté, la justice et la recherche de soi. Les aventures de Luffy l'amènent à s'opposer à des ennemis puissants et à défier les lois injustes. Sa détermination à poursuivre ses rêves inspire les lecteurs à ne jamais abandonner leurs propres aspirations.\n"
-                                            "Le manga est reconnu pour son monde vaste et détaillé, rempli de mystères et de lieux exotiques. La créativité d'Oda se manifeste à travers les nombreuses îles, cultures et créatures qu'il a imaginées. Cela crée une expérience immersive pour les lecteurs.\n"
-                                            "One Piece a laissé une empreinte indélébile sur la culture pop mondiale. Son influence s'étend au-delà des pages, avec des adaptations animées, des jeux vidéo et des films. C'est une œuvre qui continue de captiver les fans et de les emmener dans un voyage inoubliable.\n\n\n",
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            color: Colors.black,
-                                          ),
+                                        InkWell(
+                                          onTap: () {
+                                            FlutterTts().speak(dragonBall);
+                                          },
+                                          child: Icon(Icons.volume_up), 
                                         ),
+                                        TextToSpeechWidget(text: dragonBall),
                                       ],
                                     ),
                                   ),
                                 ],
                               ),
-                          ],
+                              ExpansionTile(
+                                title: Text('ONE PIECE'),
+                                onExpansionChanged: (isExpanded) => print(isExpanded),
+                                children: [
+                                  ListTile(
+                                    leading: Image.asset('assets/oda.jpeg'),
+                                    title: Text('Eiichiro ODA'),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('One Piece'),
+                                        SizedBox(height: 10.0), // Add spacing
+                                        InkWell(
+                                          onTap: () {
+                                            FlutterTts().speak(onePiece);
+                                          },
+                                          child: Icon(Icons.volume_up), // Ajouter cette ligne pour le widget qui lit le texte
+                                        ),
+                                        TextToSpeechWidget(text: onePiece),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                       ),
                     ),
                   ],
                 ),
               ),
               // Deuxième partie : contenu des autres onglets
-                Center(
-                  child: Wrap(
-                    alignment: WrapAlignment.spaceEvenly,
-                    spacing: 16.0,
-                    runSpacing: 16.0,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          // Action du bouton 1
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                          shape: const StadiumBorder(),
-                        ),
-                        child: const Text("Accueil"),
+              Center(
+                child: Wrap(
+                  alignment: WrapAlignment.spaceEvenly,
+                  spacing: 16.0,
+                  runSpacing: 16.0,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // Action du bouton 1
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                        shape: const StadiumBorder(),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Action du bouton 2
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                          shape: const StadiumBorder(),
-                        ),
-                        child: const Text("Mangaka"),
+                      child: const Text("Accueil"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Action du bouton 2
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                        shape: const StadiumBorder(),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Action du bouton 3
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                          shape: const StadiumBorder(),
-                        ),
-                        child: const Text("La Genèse"),
+                      child: const Text("Mangaka"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Action du bouton 3
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                        shape: const StadiumBorder(),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Action du bouton 4
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                          shape: const StadiumBorder(),
-                        ),
-                        child: const Text("Produits dérivés"),
+                      child: const Text("La Genèse"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Action du bouton 4
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                        shape: const StadiumBorder(),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Action du bouton 5
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                          shape: const StadiumBorder(),
-                        ),
-                        child: const Text("Jeux-vidéos phares"),
+                      child: const Text("Produits dérivés"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Action du bouton 5
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                        shape: const StadiumBorder(),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Action du bouton 6
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                          shape: const StadiumBorder(),
-                        ),
-                        child: const Text("Animes"),
+                      child: const Text("Jeux-vidéos phares"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Action du bouton 6
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                        shape: const StadiumBorder(),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Action du bouton 7
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                          shape: const StadiumBorder(),
-                        ),
-                        child: const Text("La Morale"),
+                      child: const Text("Animes"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Action du bouton 7
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                        shape: const StadiumBorder(),
                       ),
-                    ],
-                  ),
+                      child: const Text("La Morale"),
+                    ),
+                  ],
                 ),
+              ),
             ],
           ),
         ),
@@ -218,6 +224,7 @@ class _MoralePageState extends State<MoralePage> {
     );
   }
 }
+
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar _tabBar;
   _SliverAppBarDelegate(this._tabBar);
@@ -235,8 +242,46 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     return false;
   }
 }
+
+class TextToSpeechWidget extends StatefulWidget {
+  final String text;
+
+  TextToSpeechWidget({required this.text});
+
   @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return false;
+  _TextToSpeechWidgetState createState() => _TextToSpeechWidgetState();
+}
+
+class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
+  FlutterTts flutterTts = FlutterTts();
+
+  @override
+  void initState() {
+    super.initState();
+    initTts();
   }
 
+  initTts() {
+    flutterTts = FlutterTts();
+    flutterTts.setLanguage("fr-FR");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        flutterTts.speak(widget.text);
+      },
+      child: Text(
+        widget.text,
+        style: TextStyle(fontSize: 16.0, color: Colors.black),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    flutterTts.stop();
+  }
+}

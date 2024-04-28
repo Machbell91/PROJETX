@@ -1,3 +1,4 @@
+import 'package:encrypt/encrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -5,11 +6,11 @@ class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential> signInWithEmailAndPassword(String email, String password, {String? csrfToken, required Map<String, String> headers}) async {
     return await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
   }
 
-  Future<UserCredential> createUserWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential> createUserWithEmailAndPassword(String email, String password, {required Map<String, String> headers}) async {
     UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
     await _firestore.collection('users').doc(userCredential.user!.uid).set({
       'email': email,
@@ -24,4 +25,6 @@ class AuthService {
   Future<void> sendPasswordResetEmail(String email) async {
     await _firebaseAuth.sendPasswordResetEmail(email: email);
   }
+
+  decryptPassword(Encrypted encrypted) {}
 }

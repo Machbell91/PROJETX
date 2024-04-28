@@ -1,8 +1,11 @@
-// ignore_for_file: unused_field
-
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:universal_html/html.dart' as html;
 import 'auth_service.dart';
 
 enum AuthFormType { login, register }
@@ -20,7 +23,6 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   final _email = ValueNotifier<String>('');
   final _password = ValueNotifier<String>('');
-  final _formKey = GlobalKey<FormState>();
   AuthFormType _authFormType = AuthFormType.login;
   bool _isLoading = false;
   int _failedLoginAttempts = 0;
@@ -29,13 +31,52 @@ class _AuthPageState extends State<AuthPage> {
   final RegExp _emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
   final RegExp _passwordRegex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
 
+  String hashPassword(String password) {
+    final bytes = utf8.encode(password);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
+  String encryptPassword(String password) {
+    final key = encrypt.Key.fromUtf8('ma_clé_secrète_de_32_caractères');
+    final iv = encrypt.IV.fromSecureRandom(16);
+    final encrypter = encrypt.Encrypter(encrypt.AES(key));
+    final encrypted = encrypter.encrypt(password, iv: iv);
+    final encryptedBase64 = base64.encode(encrypted.bytes);
+    final ivBase64 = base64.encode(iv.bytes);
+    return '${encryptedBase64}.${ivBase64}';
+  }
+
+  String? getCsrfToken() {
+    final cookies = html.document.cookie?.split('; ') ?? [];
+    for (final cookie in cookies) {
+      final parts = cookie.split('=');
+      if (parts.length == 2 && parts[0] == 'XSRF-TOKEN') {
+        return parts[1];
+      }
+    }
+    return null;
+  }
+
   Future<void> _login() async {
     try {
-      await _authService.signInWithEmailAndPassword(_email.value, _password.value);
+      final encryptedPassword = encryptPassword(_password.value);
+      final encryptedPasswordParts = encryptedPassword.split('.');
+      final encryptedPasswordBase64 = encryptedPasswordParts[0];
+      final encrypted = encrypt.Encrypted.fromBase64(encryptedPasswordBase64);
+      final decryptedPassword = _authService.decryptPassword(encrypted);
+      final csrfToken = getCsrfToken();
+      if (csrfToken == null) {
+        throw Exception('Jeton CSRF introuvable');
+      }
+      final headers = {'X-CSRF-Token': csrfToken};
+      await _authService.signInWithEmailAndPassword(_email.value, decryptedPassword, headers: headers);
       if (widget.onEmailSignIn != null) {
         widget.onEmailSignIn!(_email.value, _password.value);
       }
-      _showSuccessDialog('Connexion réussie', 'Vous êtes maintenant connecté.');
+      final successMessage = 'Connexion réussie. Vous êtes maintenant connecté.';
+      final strippedMessage = Html(data: successMessage).data;
+      _showSuccessDialog(strippedMessage ?? '', strippedMessage ?? '');
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erreur : ${e.message}')),
@@ -43,6 +84,7 @@ class _AuthPageState extends State<AuthPage> {
       if (e.code == 'wrong-password' || e.code == 'user-not-found') {
         _failedLoginAttempts++;
         if (_failedLoginAttempts >= 5) {
+          // Bloquer l'utilisateur après 5 tentatives de connexion échouées
         }
       }
     } catch (e) {
@@ -54,12 +96,20 @@ class _AuthPageState extends State<AuthPage> {
 
   Future<void> _register() async {
     try {
-      UserCredential userCredential = await _authService.createUserWithEmailAndPassword(_email.value, _password.value);
+      final encryptedPassword = encryptPassword(_password.value);
+      final csrfToken = getCsrfToken();
+      if (csrfToken == null) {
+        throw Exception('Jeton CSRF introuvable');
+      }
+      final headers = {'X-CSRF-Token': csrfToken};
+      UserCredential userCredential = await _authService.createUserWithEmailAndPassword(_email.value, encryptedPassword, headers: headers);
       await _authService.sendEmailVerification(userCredential.user!);
       if (widget.onEmailSignUp != null) {
         widget.onEmailSignUp!(_email.value, _password.value);
       }
-      _showSuccessDialog('Inscription réussie', 'Votre compte a été créé avec succès. Un e-mail de vérification vous a été envoyé.');
+      final successMessage = 'Inscription réussie. Votre compte a été créé avec succès. Un e-mail de vérification vous a été envoyé.';
+      final strippedMessage = Html(data: successMessage).data;
+      _showSuccessDialog(strippedMessage ?? '', strippedMessage ?? '');
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erreur : ${e.message}')),
