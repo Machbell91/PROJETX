@@ -248,7 +248,7 @@ class _HomePageState extends State<HomePage> {
                         case 5:
                           return PremierJpage();
                         case 6:
-                          return MoralePage();
+                          return MoralePage(dragonBallText: '', onePieceText: '',);
                         default:
                           return Container();
                       }
@@ -318,13 +318,48 @@ class NavigationMenu extends StatelessWidget {
               ),
             ),
           ),
-          NavigationMenuItem(title: 'LES MANGAKA', index: 0, onItemSelected: onItemSelected),
-          NavigationMenuItem(title: 'LA GENÈSE', index: 1, onItemSelected: onItemSelected),
-          NavigationMenuItem(title: 'LES ANIMES', index: 2, onItemSelected: onItemSelected),
-          NavigationMenuItem(title: 'LES DÉCLINAISONS', index: 3, onItemSelected: onItemSelected),
-          NavigationMenuItem(title: 'LES ÉDITIONS', index: 4, onItemSelected: onItemSelected),
-          NavigationMenuItem(title: 'LES JEUX-VIDEOS PHARE', index: 5, onItemSelected: onItemSelected),
-          NavigationMenuItem(title: 'LA MORALE', index: 6, onItemSelected: onItemSelected),
+            NavigationMenuItem(title: 'LES MANGAKA', index: 0, onItemSelectedWithIndex: (index) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MangakaPage()),
+              );
+            }, onItemSelected: (int value) {  },),
+            NavigationMenuItem(title: 'LA GENÈSE', index: 0, onItemSelectedWithIndex: (index) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => GenesisPage()),
+              );
+            }, onItemSelected: (int value) {  },),
+            NavigationMenuItem(title: 'LES ANIMATIONS', index: 0, onItemSelectedWithIndex: (index) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LesAnimes()),
+              );
+            }, onItemSelected: (int value) {  },),
+            NavigationMenuItem(title: 'LES DÉCLINAISONS', index: 0, onItemSelectedWithIndex: (index) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DeclinaisonPage()),
+              );
+            }, onItemSelected: (int value) {  },),
+            NavigationMenuItem(title: 'LES ÉDITIONS', index: 0, onItemSelectedWithIndex: (index) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EditionsPage()),
+              );
+            }, onItemSelected: (int value) {  },),
+            NavigationMenuItem(title: 'LE TOP DES JEUX-VIDÉOS', index: 0, onItemSelectedWithIndex: (index) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PremierJpage()),
+              );
+            }, onItemSelected: (int value) {  },),
+            NavigationMenuItem(title: 'LA VISION MORALE', index: 0, onItemSelectedWithIndex: (index) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MoralePage(dragonBallText: '', onePieceText: '',)),
+              );
+            }, onItemSelected: (int value) {  },),
         ],
       ),
     );
@@ -334,8 +369,10 @@ class NavigationMenuItem extends StatefulWidget {
   final String title;
   final int index;
   final ValueChanged<int> onItemSelected;
-  const NavigationMenuItem({required this.title, required this.index, required this.onItemSelected});
-  @override
+  final Function(int)? onItemSelectedWithIndex;
+  const NavigationMenuItem({required this.title, required this.index, required this.onItemSelected, this.onItemSelectedWithIndex});
+ 
+ @override
   _NavigationMenuItemState createState() => _NavigationMenuItemState();
 }
 class _NavigationMenuItemState extends State<NavigationMenuItem>
@@ -365,36 +402,39 @@ class _NavigationMenuItemState extends State<NavigationMenuItem>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (event) {
-        setState(() {
-          _isHovered = true;
-        });
-        _animationController.forward();
-      },
-      onExit: (event) {
-        setState(() {
-          _isHovered = false;
-        });
-        _animationController.reverse();
-      },
-      child: Material(
-        color: Color.lerp(_primaryColor, _hoverColor, _colorAnimation.value),
-        child: InkWell(
-          onTap: () {
-            widget.onItemSelected(widget.index);
-            HapticFeedback.selectionClick();
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 16.0),
-            child: Text(
-              widget.title,
-              style: _menuItemTextStyle,
-            ),
+Widget build(BuildContext context) {
+  return MouseRegion(
+    onEnter: (event) {
+      setState(() {
+        _isHovered = true;
+      });
+      _animationController.forward();
+    },
+    onExit: (event) {
+      setState(() {
+        _isHovered = false;
+      });
+      _animationController.reverse();
+    },
+    child: Material(
+      color: Color.lerp(_primaryColor, _hoverColor, _colorAnimation.value),
+      child: InkWell(
+        onTap: () {
+          if (widget.onItemSelectedWithIndex != null) {
+            widget.onItemSelectedWithIndex!(widget.index);
+          }
+          HapticFeedback.selectionClick();
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 16.0),
+          child: Text(
+            widget.title,
+            style: _menuItemTextStyle,
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 }

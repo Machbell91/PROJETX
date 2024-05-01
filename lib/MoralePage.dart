@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'MangakaPage.dart';
+import 'GenesisPage.dart';
+import 'EditionsPage.dart';
+import 'DeclinaisonPage.dart';
+import 'PremierJpage.dart';
+import 'LesAnimes.dart';
+import 'main.dart';
 
 class MoralePage extends StatefulWidget {
+  final String dragonBallText;
+  final String onePieceText;
+
+  MoralePage({required this.dragonBallText, required this.onePieceText});
+
   @override
   _MoralePageState createState() => _MoralePageState();
 }
@@ -14,9 +26,10 @@ class _MoralePageState extends State<MoralePage> with SingleTickerProviderStateM
     super.didChangeDependencies();
     bodyStyle = DefaultTextStyle.of(context).style;
   }
+
   final List<Tab> _tabs = [
     const Tab(text: 'MORALES'),
-    const Tab(text: 'Menu'),
+    const Tab(text: 'MENU'),
   ];
 
   String dragonBallText = "Dragon Ball : Une Saga Légendaire\n\n"
@@ -44,114 +57,326 @@ class _MoralePageState extends State<MoralePage> with SingleTickerProviderStateM
   String dragonBallTitle = "Dragon Ball : Une Saga Légendaire";
   String dragonBallIntroduction = "Créé par Akira Toriyama, Dragon Ball est un manga emblématique publié pour la première fois en 1984. Depuis sa publication, il a conquis le cœur de millions de lecteurs à travers le monde.";
 
-// Constantes pour les chaînes de caractères de One Piece
+  // Constantes pour les chaînes de caractères de One Piece
   String onePieceTitle = "One Piece : Une Épopée Épique";
   String onePieceIntroduction = "One Piece est un manga épique écrit et illustré par Eiichiro Oda. Publié pour la première fois en 1997, il raconte l'histoire de Monkey D. Luffy, un pirate rêveur à la quête du légendaire trésor One Piece.";
 
   RichText buildDragonBallRichText() {
-  return RichText(
-    text: TextSpan(
-      style: bodyStyle.copyWith(fontSize: 16, height: 1.5),
-      children: [
-        // Titre
-        TextSpan(text: '$dragonBallTitle\n\n',style: TextStyle(
-          color: Colors.black,
-          decoration: TextDecoration.underline,
-          decorationColor: Color.fromARGB(0, 255, 255, 255),
-        ),),
+    return RichText(
+      text: TextSpan(
+        style: bodyStyle.copyWith(fontSize: 18, height: 1.5),
+        children: [
+          // Titre
+          TextSpan(
+            text: '${dragonBallTitle.toUpperCase()}\n\n',
+            style: TextStyle(
+              color: Color.fromARGB(255, 3, 178, 241),
+              decoration: TextDecoration.underline,
+              decorationColor: Color.fromARGB(0, 255, 255, 255),
+              fontSize: 23,
+              letterSpacing: 1.2,
+              shadows: [
+                Shadow(blurRadius: 0.0, color: Colors.black, offset: Offset(1.0, 1.0)),
+                Shadow(blurRadius: 0.0, color: Colors.black, offset: Offset(-1.0, -1.0)),
+                Shadow(blurRadius: 0.0, color: Colors.black, offset: Offset(1.0, -1.0)),
+                Shadow(blurRadius: 0.0, color: Colors.black, offset: Offset(-1.0, 1.0)),
+              ],
+            ),
+          ),
+          // Introduction
+          TextSpan(
+            text: '   $dragonBallIntroduction\n\n',
+            style: TextStyle(
+              color: Colors.black,
+              decoration: TextDecoration.underline,
+              decorationColor: Color.fromARGB(0, 255, 255, 255),
+              fontSize: 20,
+            ),
+          ),
+          // Histoire
+          WidgetSpan(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 11, 49, 145),
+                    offset: Offset(0, 2),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Histoire",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue, decoration: TextDecoration.underline, decorationColor: Color.fromARGB(0, 255, 255, 255), decorationStyle: TextDecorationStyle.wavy),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "   L'histoire suit les aventures de Son Goku, un jeune guerrier en quête de puissance et de sagesse. Ses péripéties, ses combats épiques et ses rencontres inoubliables ont créé une saga légendaire.\n\n",
+                    style: TextStyle(
+                      color: Colors.white,
+                      decoration: TextDecoration.underline,
+                      decorationColor: Color.fromARGB(0, 255, 255, 255),
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Thèmes
+          WidgetSpan(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 11, 49, 145),
+                    offset: Offset(0, 2),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Thèmes",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue, decoration: TextDecoration.underline, decorationColor: Color.fromARGB(0, 255, 255, 255), decorationStyle: TextDecorationStyle.wavy),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "   Le manga explore des thèmes comme la persévérance, l'amitié et la quête de l'excellence. Goku incarne ces valeurs en s'entraînant sans relâche pour devenir le plus fort. Les relations avec ses amis, notamment Krillin et Bulma, soulignent l'importance du travail d'équipe et de l'entraide.\n\n",
+                    style: TextStyle(
+                      color: Colors.white,
+                      decoration: TextDecoration.none,
+                      decorationColor: Color.fromARGB(0, 255, 255, 255),
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Impact culturel
+          WidgetSpan(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 11, 49, 145),
+                    offset: Offset(0, 2),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Impact culturel",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue, decoration: TextDecoration.underline, decorationColor: Color.fromARGB(0, 255, 255, 255), decorationStyle: TextDecorationStyle.wavy),textAlign: TextAlign.justify,
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "   Dragon Ball est aussi connu pour ses combats intenses et sa quête des boules de cristal, objets magiques capables d'exaucer des vœux. Les aventures de Goku l'emmènent dans des contrées exotiques, rencontrant des ennemis redoutables et des alliés improbables.\n\n",
+                    style: TextStyle(
+                      color: Colors.white,
+                      decoration: TextDecoration.none,
+                      decorationColor: Color.fromARGB(0, 255, 255, 255),
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                  Text(
+                    "   L'impact culturel de Dragon Ball est indéniable, inspirant de nombreux autres mangas et animés. Son influence s'étend bien au-delà du Japon, touchant les cœurs des fans du monde entier. Dragon Ball est plus qu'un manga : c'est une référence incontournable de la culture populaire mondiale.\n\n",
+                    style: TextStyle(
+                      color: Colors.white,
+                      decoration: TextDecoration.none,
+                      decorationColor: Color.fromARGB(0, 255, 255, 255),
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                  Text(
+                    "   Akira Toriyama a réussi à créer un univers fascinant, rempli de personnages mémorables et de moments inoubliables. Son génie créatif a marqué l'histoire du manga et continue d'inspirer de nouvelles générations.\n\n\n",
+                    style: TextStyle(
+                      color: Colors.white,
+                      decoration: TextDecoration.none,
+                      decorationColor: Color.fromARGB(0, 255, 255, 255),
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-        // Introduction
-        TextSpan(text: '   $dragonBallIntroduction\n\n',style: TextStyle(
-          color: Colors.black,
-          decoration: TextDecoration.underline,
-          decorationColor: Color.fromARGB(0, 255, 255, 255),
-        ),),
-        // Histoire
-        TextSpan(text: "Histoire\n\n", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blue,decoration: TextDecoration.underline,decorationColor: Color.fromARGB(0, 255, 255, 255),decorationStyle: TextDecorationStyle.wavy,)),
-        TextSpan(text: "   L'histoire suit les aventures de Son Goku, un jeune guerrier en quête de puissance et de sagesse. Ses péripéties, ses combats épiques et ses rencontres inoubliables ont créé une saga légendaire.\n\n\n",style: TextStyle(
-          color: Colors.black,
-          decoration: TextDecoration.underline,
-          decorationColor: Color.fromARGB(0, 255, 255, 255),
-        ),),
-
-        // Thèmes
-        TextSpan(text: "Thèmes\n\n", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blue,decoration: TextDecoration.underline,decorationColor: Color.fromARGB(0, 255, 255, 255),decorationStyle: TextDecorationStyle.wavy,)),
-        TextSpan(text: "   Le manga explore des thèmes comme la persévérance, l'amitié et la quête de l'excellence. Goku incarne ces valeurs en s'entraînant sans relâche pour devenir le plus fort. Les relations avec ses amis, notamment Krillin et Bulma, soulignent l'importance du travail d'équipe et de l'entraide.\n\n\n",style: TextStyle(
-          color: Colors.black,
-          decoration: TextDecoration.underline,
-          decorationColor: Color.fromARGB(0, 255, 255, 255),
-        ),),
-
-        // Impact culturel
-        TextSpan(text: "Impact culturel\n\n", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blue,decoration: TextDecoration.underline,decorationColor: Color.fromARGB(0, 255, 255, 255),decorationStyle: TextDecorationStyle.wavy,)),
-        TextSpan(text: "   Dragon Ball est aussi connu pour ses combats intenses et sa quête des boules de cristal, objets magiques capables d'exaucer des vœux. Les aventures de Goku l'emmènent dans des contrées exotiques, rencontrant des ennemis redoutables et des alliés improbables.\n\n",style: TextStyle(
-          color: Colors.black,
-          decoration: TextDecoration.underline,
-          decorationColor: Color.fromARGB(0, 255, 255, 255),
-        ),),
-        TextSpan(text: "   L'impact culturel de Dragon Ball est indéniable, inspirant de nombreux autres mangas et animés. Son influence s'étend bien au-delà du Japon, touchant les cœurs des fans du monde entier. Dragon Ball est plus qu'un manga : c'est une référence incontournable de la culture populaire mondiale.\n\n",style: TextStyle(
-          color: Colors.black,
-          decoration: TextDecoration.underline,
-          decorationColor: Color.fromARGB(0, 255, 255, 255),
-        ),),
-        TextSpan(text: "   Akira Toriyama a réussi à créer un univers fascinant, rempli de personnages mémorables et de moments inoubliables. Son génie créatif a marqué l'histoire du manga et continue d'inspirer de nouvelles générations.\n\n\n",style: TextStyle(
-          color: Colors.black,
-          decoration: TextDecoration.underline,
-          decorationColor: Color.fromARGB(0, 255, 255, 255),
-        ),),
-      ],
-    ),
-  );
-}
-
-RichText buildOnePieceRichText() {
-  return RichText(
-    text: TextSpan(
-      style: bodyStyle.copyWith(fontSize: 16, height: 1.5),
-      children: [
-        // Titre
-        TextSpan(text: '$onePieceTitle\n\n',style: TextStyle(
-          color: Colors.black,
-          decoration: TextDecoration.underline,
-          decorationColor: Color.fromARGB(0, 255, 255, 255),
-        ),),
-
-        // Introduction
-        TextSpan(text: '   $onePieceIntroduction\n\n',style: TextStyle(color: Colors.black),),
-
-        // Histoire
-        TextSpan(text: "Histoire\n\n", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blue,decoration: TextDecoration.underline,decorationColor: Color.fromARGB(0, 255, 255, 255),decorationStyle: TextDecorationStyle.wavy,)),
-        TextSpan(text: "   Luffy est entouré d'un équipage diversifié, chacun ayant ses propres compétences et motivations. Ensemble, ils affrontent des défis formidables et découvrent les secrets cachés de l'océan. L'amitié et la loyauté sont au cœur de leur voyage, renforçant les liens entre les membres de l'équipage.\n\n\n",style: TextStyle(
-          color: Colors.black,
-          decoration: TextDecoration.underline,
-          decorationColor: Color.fromARGB(0, 255, 255, 255),
-        ),),
-
-        // Thèmes
-        TextSpan(text: "Thèmes\n\n", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blue,decoration: TextDecoration.underline,decorationColor: Color.fromARGB(0, 255, 255, 255),decorationStyle: TextDecorationStyle.wavy,)),
-        TextSpan(text: "   One Piece explore également des thèmes tels que la liberté, la justice et la recherche de soi. Les aventures de Luffy l'amènent à s'opposer à des ennemis puissants et à défier les lois injustes. Sa détermination à poursuivre ses rêves inspire les lecteurs à ne jamais abandonner leurs propres aspirations.\n\n\n",style: TextStyle(
-          color: Colors.black,
-          decoration: TextDecoration.underline,
-          decorationColor: Color.fromARGB(0, 255, 255, 255),
-        ),),
-
-        // Impact culturel
-        TextSpan(text: "Impact culturel\n\n", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blue,decoration: TextDecoration.underline,decorationColor: Color.fromARGB(0, 255, 255, 255),decorationStyle: TextDecorationStyle.wavy,)),
-        TextSpan(text: "   Le manga est reconnu pour son monde vaste et détaillé, rempli de mystères et de lieux exotiques. La créativité d'Oda se manifeste à travers les nombreuses îles, cultures et créatures qu'il a imaginées. Cela crée une expérience immersive pour les lecteurs.\n\n",style: TextStyle(
-          color: Colors.black,
-          decoration: TextDecoration.underline,
-          decorationColor: Color.fromARGB(0, 255, 255, 255),
-        ),),
-        TextSpan(text: "   One Piece a laissé une empreinte indélébile sur la culture pop mondiale. Son influence s'étend au-delà des pages, avec des adaptations animées, des jeux vidéo et des films. C'est une œuvre qui continue de captiver les fans et de les emmener dans un voyage inoubliable.\n\n\n",style: TextStyle(
-          color: Colors.black,
-          decoration: TextDecoration.underline,
-          decorationColor: Color.fromARGB(0, 255, 255, 255),
-        ),),
-      ],
-    ),
-  );
-}
-
+  RichText buildOnePieceRichText() {
+    return RichText(
+      text: TextSpan(
+        style: bodyStyle.copyWith(fontSize: 16, height: 1.5),
+        children: [
+          // Titre
+          TextSpan(
+            text: '${onePieceTitle.toUpperCase()}\n\n',
+            style: TextStyle(
+              color: Color.fromARGB(255, 3, 178, 241),
+              decoration: TextDecoration.underline,
+              decorationColor: Color.fromARGB(0, 255, 255, 255),
+              fontSize: 23,
+              letterSpacing: 1.2,
+              shadows: [
+                Shadow(blurRadius: 0.0, color: Colors.black, offset: Offset(1.0, 1.0)),
+                Shadow(blurRadius: 0.0, color: Colors.black, offset: Offset(-1.0, -1.0)),
+                Shadow(blurRadius: 0.0, color: Colors.black, offset: Offset(1.0, -1.0)),
+                Shadow(blurRadius: 0.0, color: Colors.black, offset: Offset(-1.0, 1.0)),
+              ],
+            ),
+          ),
+          // Introduction
+          TextSpan(
+            text: '   $onePieceIntroduction\n\n',
+            style: TextStyle(
+              color: Colors.black,
+              decoration: TextDecoration.underline,
+              decorationColor: Color.fromARGB(0, 255, 255, 255),
+              fontSize: 20,
+            ),
+          ),
+          // Histoire
+          WidgetSpan(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 11, 49, 145),
+                    offset: Offset(0, 2),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Histoire",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue, decoration: TextDecoration.underline, decorationColor: Color.fromARGB(0, 255, 255, 255), decorationStyle: TextDecorationStyle.wavy),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "   Luffy est entouré d'un équipage diversifié, chacun ayant ses propres compétences et motivations. Ensemble, ils affrontent des défis formidables et découvrent les secrets cachés de l'océan. L'amitié et la loyauté sont au cœur de leur voyage, renforçant les liens entre les membres de l'équipage.\n\n",
+                    style: TextStyle(
+                      color: Colors.white,
+                      decoration: TextDecoration.none,
+                      decorationColor: Color.fromARGB(0, 255, 255, 255),
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Thèmes
+          WidgetSpan(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 11, 49, 145),
+                    offset: Offset(0, 2),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Thèmes",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue, decoration: TextDecoration.underline, decorationColor: Color.fromARGB(0, 255, 255, 255), decorationStyle: TextDecorationStyle.wavy),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "   One Piece explore également des thèmes tels que la liberté, la justice et la recherche de soi. Les aventures de Luffy l'amènent à s'opposer à des ennemis puissants et à défier les lois injustes. Sa détermination à poursuivre ses rêves inspire les lecteurs à ne jamais abandonner leurs propres aspirations.\n\n",
+                    style: TextStyle(
+                      color: Colors.white,
+                      decoration: TextDecoration.none,
+                      decorationColor: Color.fromARGB(0, 255, 255, 255),
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Impact culturel
+          WidgetSpan(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 11, 49, 145),
+                    offset: Offset(0, 2),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Impact culturel",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue, decoration: TextDecoration.underline, decorationColor: Color.fromARGB(0, 255, 255, 255), decorationStyle: TextDecorationStyle.wavy),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "   Le manga est reconnu pour son monde vaste et détaillé, rempli de mystères et de lieux exotiques. La créativité d'Oda se manifeste à travers les nombreuses îles, cultures et créatures qu'il a imaginées. Cela crée une expérience immersive pour les lecteurs.\n\n",
+                    style: TextStyle(
+                      color: Colors.white,
+                      decoration: TextDecoration.none,
+                      decorationColor: Color.fromARGB(0, 255, 255, 255),
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                  Text(
+                    "   One Piece a laissé une empreinte indélébile sur la culture pop mondiale. Son influence s'étend au-delà des pages, avec des adaptations animées, des jeux vidéo et des films. C'est une œuvre qui continue de captiver les fans et de les emmener dans un voyage inoubliable.\n\n\n",
+                    style: TextStyle(
+                      color: Colors.white,
+                      decoration: TextDecoration.none,
+                      decorationColor: Color.fromARGB(0, 255, 255, 255),
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   late AnimationController _controller;
   late Animation<Color?> _animation;
@@ -177,6 +402,7 @@ RichText buildOnePieceRichText() {
 
   @override
   Widget build(BuildContext context) {
+
     // Définir une palette de couleurs
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final Color primaryColor = colorScheme.primary;
@@ -190,16 +416,13 @@ RichText buildOnePieceRichText() {
     final TextStyle? subtitleStyle = textTheme.titleMedium;
     final TextStyle? bodyStyle = textTheme.bodyLarge;
 
-    // Vérifier la taille de l'écran pour une mise en page adaptative
-    final bool isMobile = MediaQuery.of(context).size.width < 600;
-
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
         return DefaultTabController(
           length: _tabs.length,
           child: Scaffold(
-            backgroundColor: _animation.value,
+            backgroundColor: Colors.white,
             body: NestedScrollView(
               headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
                 return <Widget>[
@@ -211,8 +434,14 @@ RichText buildOnePieceRichText() {
                     flexibleSpace: FlexibleSpaceBar(
                       centerTitle: true,
                       collapseMode: CollapseMode.parallax,
-                      title: Text("Morales",
-                          style: headlineStyle?.copyWith(color: onSurfaceColor)),
+                      title: Text(
+                      "LA MORALE",
+                      style: headlineStyle?.copyWith(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                       background: Image.network(
                         "assets/Uuuuuu.png",
                         fit: BoxFit.cover,
@@ -246,7 +475,17 @@ RichText buildOnePieceRichText() {
                               child: Column(
                                 children: <Widget>[
                                   ExpansionTile(
-                                    title: Text('DRAGONBALL', style: headlineStyle),
+                                    title: Text(
+                                      'DRAGONBALL',
+                                      style: headlineStyle?.copyWith(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.bold,
+                                        foreground: Paint()
+                                          ..style = PaintingStyle.stroke
+                                          ..strokeWidth = 0.5
+                                          ..color = Color.fromARGB(255, 3, 75, 21),
+                                      ),
+                                    ),
                                     onExpansionChanged: (isExpanded) => print(isExpanded),
                                     children: [
                                       Card(
@@ -294,7 +533,17 @@ RichText buildOnePieceRichText() {
                                     ],
                                   ),
                                   ExpansionTile(
-                                    title: Text('ONE PIECE', style: headlineStyle),
+                                    title: Text(
+                                      'ONE PIECE',
+                                      style: headlineStyle?.copyWith(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.bold,
+                                        foreground: Paint()
+                                          ..style = PaintingStyle.stroke
+                                          ..strokeWidth = 0.5
+                                          ..color = Color.fromARGB(255, 135, 3, 3),
+                                      ),
+                                    ),
                                     onExpansionChanged: (isExpanded) => print(isExpanded),
                                     children: [
                                       Card(
@@ -357,82 +606,117 @@ RichText buildOnePieceRichText() {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            // Action du bouton 1
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomePage()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: primaryColor,
+                            backgroundColor: Color.fromARGB(255, 249, 249, 249),
                             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                             shape: const StadiumBorder(),
                           ),
-                          child: const Text("Accueil"),
+                          child: Text("ACCUEIL", style: TextStyle(color:  Color.fromARGB(158, 0, 0, 0))),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // Action du bouton 2
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MangakaPage()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: primaryColor,
+                            backgroundColor: Color.fromARGB(255, 249, 249, 249),
                             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                             shape: const StadiumBorder(),
                           ),
-                          child: const Text("Mangaka"),
+                          child: Text("MANGAKA", style: TextStyle(color:  Color.fromARGB(158, 0, 0, 0))),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // Action du bouton 3
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => GenesisPage()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: primaryColor,
+                            backgroundColor: Color.fromARGB(255, 249, 249, 249),
                             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                             shape: const StadiumBorder(),
                           ),
-                          child: const Text("La Genèse"),
+                          child: Text("LA GENÈSE", style: TextStyle(color:  Color.fromARGB(158, 0, 0, 0))),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // Action du bouton 4
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => EditionsPage()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: primaryColor,
+                            backgroundColor: Color.fromARGB(255, 249, 249, 249),
                             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                             shape: const StadiumBorder(),
                           ),
-                          child: const Text("Produits dérivés"),
+                          child: Text("ÉDITIONS", style: TextStyle(color:  Color.fromARGB(158, 0, 0, 0))),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // Action du bouton 5
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => DeclinaisonPage()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: primaryColor,
+                            backgroundColor: Color.fromARGB(255, 249, 249, 249),
                             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                             shape: const StadiumBorder(),
                           ),
-                          child: const Text("Jeux-vidéos phares"),
+                          child: Text("LES PRODUITS DÉRIVÉS", style: TextStyle(color:  Color.fromARGB(158, 0, 0, 0))),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // Action du bouton 6
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => PremierJpage()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: primaryColor,
+                            backgroundColor: Color.fromARGB(255, 249, 249, 249),
                             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                             shape: const StadiumBorder(),
                           ),
-                          child: const Text("Animes"),
+                          child: Text("JEUX-VIDÉOS PHARES", style: TextStyle(color:  Color.fromARGB(158, 0, 0, 0))),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // Action du bouton 7
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => LesAnimes()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: primaryColor,
+                            backgroundColor: Color.fromARGB(255, 249, 249, 249),
                             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                             shape: const StadiumBorder(),
                           ),
-                          child: const Text("La Morale"),
+                          child: Text("ANIMÉS", style: TextStyle(color:  Color.fromARGB(158, 0, 0, 0))),
                         ),
-                      ],
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MoralePage(onePieceText: '', dragonBallText: '')),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 249, 249, 249),
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                            shape: const StadiumBorder(),
+                          ),
+                          child: Text("LA MORALE", style: TextStyle(color:  Color.fromARGB(158, 0, 0, 0))),
+                        ),
+                      ]
                     ),
                   ),
                 ],
