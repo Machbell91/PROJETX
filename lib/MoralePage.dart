@@ -442,8 +442,8 @@ class _MoralePageState extends State<MoralePage> with SingleTickerProviderStateM
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                      background: Image.network(
-                        "assets/Uuuuuu.png",
+                      background: Image.asset(
+                        "assets/banner.png",
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -622,7 +622,7 @@ class _MoralePageState extends State<MoralePage> with SingleTickerProviderStateM
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => MangakaPage()),
+                              MaterialPageRoute(builder: (context) => MangakaPage(akiraToriyamaBio: '', eiichiroOdaBio: '',)),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -636,7 +636,7 @@ class _MoralePageState extends State<MoralePage> with SingleTickerProviderStateM
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => GenesisPage()),
+                              MaterialPageRoute(builder: (context) => GenesisPage(akiraToriyamaText: '', eiichiroOdaText: '',)),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -650,7 +650,7 @@ class _MoralePageState extends State<MoralePage> with SingleTickerProviderStateM
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => EditionsPage()),
+                              MaterialPageRoute(builder: (context) => EditionsPage(dragonBallText: '', onePieceText: '',)),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -664,7 +664,7 @@ class _MoralePageState extends State<MoralePage> with SingleTickerProviderStateM
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => DeclinaisonPage()),
+                              MaterialPageRoute(builder: (context) => DeclinaisonPage(dragonBallText: '', onePieceText: '',)),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -678,7 +678,7 @@ class _MoralePageState extends State<MoralePage> with SingleTickerProviderStateM
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => PremierJpage()),
+                              MaterialPageRoute(builder: (context) => PremierJpage(top3JeuxDragonBall: '', top3JeuxOnePiece: '',)),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -692,7 +692,7 @@ class _MoralePageState extends State<MoralePage> with SingleTickerProviderStateM
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => LesAnimes()),
+                              MaterialPageRoute(builder: (context) => LesAnimes(dragonBallSeries: '', onePieceSeries: '',)),
                             );
                           },
                           style: ElevatedButton.styleFrom(

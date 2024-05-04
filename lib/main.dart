@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dbop/DeclinaisonPage.dart';
 import 'package:dbop/EditionsPage.dart';
-import 'package:dbop/LESANIMES.dart';
+import 'LesAnimes.dart';
 import 'package:dbop/MoralePage.dart';
 import 'package:dbop/footerm.dart';
 import 'package:flutter/widgets.dart';
@@ -236,17 +236,17 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(builder: (context) {
                       switch (index) {
                         case 0:
-                          return MangakaPage();
+                          return MangakaPage(akiraToriyamaBio: '', eiichiroOdaBio: '',);
                         case 1:
-                          return GenesisPage();
+                          return GenesisPage(akiraToriyamaText: '', eiichiroOdaText: '',);
                         case 2:
-                          return LesAnimes();
+                          return LesAnimes(dragonBallSeries: '', onePieceSeries: '',);
                         case 3:
-                          return DeclinaisonPage();
+                          return DeclinaisonPage(dragonBallText: '', onePieceText: '',);
                         case 4:
-                          return EditionsPage();
+                          return EditionsPage(dragonBallText: '', onePieceText: '',);
                         case 5:
-                          return PremierJpage();
+                          return PremierJpage(top3JeuxDragonBall: '', top3JeuxOnePiece: '',);
                         case 6:
                           return MoralePage(dragonBallText: '', onePieceText: '',);
                         default:
@@ -321,37 +321,37 @@ class NavigationMenu extends StatelessWidget {
             NavigationMenuItem(title: 'LES MANGAKA', index: 0, onItemSelectedWithIndex: (index) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MangakaPage()),
+                MaterialPageRoute(builder: (context) => MangakaPage(akiraToriyamaBio: '', eiichiroOdaBio: '',)),
               );
             }, onItemSelected: (int value) {  },),
             NavigationMenuItem(title: 'LA GENÈSE', index: 0, onItemSelectedWithIndex: (index) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => GenesisPage()),
+                MaterialPageRoute(builder: (context) => GenesisPage(akiraToriyamaText: '', eiichiroOdaText: '',)),
               );
             }, onItemSelected: (int value) {  },),
             NavigationMenuItem(title: 'LES ANIMATIONS', index: 0, onItemSelectedWithIndex: (index) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LesAnimes()),
+                MaterialPageRoute(builder: (context) => LesAnimes(dragonBallSeries: '', onePieceSeries: '',)),
               );
             }, onItemSelected: (int value) {  },),
             NavigationMenuItem(title: 'LES DÉCLINAISONS', index: 0, onItemSelectedWithIndex: (index) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => DeclinaisonPage()),
+                MaterialPageRoute(builder: (context) => DeclinaisonPage(dragonBallText: '', onePieceText: '',)),
               );
             }, onItemSelected: (int value) {  },),
             NavigationMenuItem(title: 'LES ÉDITIONS', index: 0, onItemSelectedWithIndex: (index) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => EditionsPage()),
+                MaterialPageRoute(builder: (context) => EditionsPage(dragonBallText: '', onePieceText: '',)),
               );
             }, onItemSelected: (int value) {  },),
             NavigationMenuItem(title: 'LE TOP DES JEUX-VIDÉOS', index: 0, onItemSelectedWithIndex: (index) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PremierJpage()),
+                MaterialPageRoute(builder: (context) => PremierJpage(top3JeuxDragonBall: '', top3JeuxOnePiece: '',)),
               );
             }, onItemSelected: (int value) {  },),
             NavigationMenuItem(title: 'LA VISION MORALE', index: 0, onItemSelectedWithIndex: (index) {
